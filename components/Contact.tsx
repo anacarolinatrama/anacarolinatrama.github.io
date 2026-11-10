@@ -46,7 +46,7 @@ export function Contact() {
 
   return (
     <section id="contato" className="px-[clamp(12px,3vw,36px)] pt-[clamp(26px,5vw,64px)]">
-      <div className="relative w-full overflow-hidden border-[3px] border-navy bg-red p-[clamp(22px,4vw,56px)] shadow-[14px_14px_0_#12224C] max-sm:shadow-[8px_8px_0_#12224C] lg:min-h-[719px]">
+      <div data-reveal className="relative w-full overflow-hidden border-[3px] border-navy bg-red p-[clamp(22px,4vw,56px)] shadow-[14px_14px_0_#12224C] max-sm:shadow-[8px_8px_0_#12224C] lg:min-h-[719px]">
         {/* decoração */}
         <div
           aria-hidden="true"

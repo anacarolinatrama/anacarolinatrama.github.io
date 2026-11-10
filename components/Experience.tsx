@@ -4,7 +4,7 @@ import { cv } from "@/content/cv";
 import { useLanguage } from "./LanguageProvider";
 import { SectionKicker } from "./ui/SectionKicker";
 
-/** 02. Trajetória — um card horizontal por experiência, do mais recente (01) ao mais antigo. */
+/** 03. Trajetória — um card horizontal por experiência, do mais recente (01) ao mais antigo. */
 export function Experience() {
   const { lang, t } = useLanguage();
   const e = t.exp;
@@ -13,8 +13,8 @@ export function Experience() {
 
   return (
     <section id="exp" className="bg-navy px-[clamp(12px,3vw,36px)] py-[clamp(26px,5vw,64px)]">
-      <SectionKicker number="02" label={e.kicker} tone="dark" className="mb-[18px]" />
-      <h2 className="m-0 mb-[22px] max-w-[24ch] font-display text-[clamp(24px,4vw,48px)] uppercase leading-none text-cream">
+      <SectionKicker number="03" label={e.kicker} tone="dark" className="mb-[18px]" />
+      <h2 data-reveal className="m-0 mb-[22px] max-w-[24ch] font-display text-[clamp(24px,4vw,48px)] uppercase leading-none text-cream">
         {e.title}
       </h2>
 
@@ -22,6 +22,7 @@ export function Experience() {
         {items.map((it, i) => (
           <article
             key={`${it.period}-${i}`}
+            data-reveal
             className="grid grid-cols-1 border-[3px] border-gold bg-cream md:grid-cols-3"
           >
             <div className="flex flex-col gap-[6px] border-navy bg-gold p-5 max-md:border-b-[3px] md:border-r-[3px]">
@@ -58,15 +59,15 @@ export function Experience() {
 
       {/* ---------- formação (mesmos dados do currículo: content/cv.ts) ---------- */}
       <div className="mt-[clamp(28px,4vw,48px)]">
-        <div className="mb-[18px] flex items-baseline gap-[10px]">
+        <div data-reveal className="mb-[18px] flex items-baseline gap-[10px]">
           <h3 className="m-0 font-display text-[clamp(20px,2.6vw,30px)] font-normal uppercase text-gold">
             {e.educationTitle}
           </h3>
-          <span aria-hidden="true" className="h-[4px] flex-1 bg-red" />
+          <span aria-hidden="true" className="kick-rule h-[4px] flex-1 bg-red" />
         </div>
         <ul className="m-0 grid list-none gap-[14px] p-0 md:grid-cols-2">
-          {education.map((ed) => (
-            <li key={`${ed.course}-${ed.school}`} className="flex border-[3px] border-gold bg-cream">
+          {education.map((ed, i) => (
+            <li key={`${ed.course}-${ed.school}`} data-reveal style={{ "--i": i % 2 } as React.CSSProperties} className="flex border-[3px] border-gold bg-cream">
               <span className="flex w-[112px] flex-none items-center justify-center border-r-[3px] border-navy bg-red px-3 py-4 text-center font-mono text-[11px] uppercase leading-[1.3] tracking-[.1em] text-cream">
                 {ed.period}
               </span>

@@ -78,6 +78,63 @@
   100% { transform: translateY(0) rotate(1.5deg); opacity: 1; }
 }
 
+/* ---------- hero: entrada em cascata ao carregar (só CSS) ---------- */
+@keyframes rise {
+  from { opacity: 0; translate: 0 18px; }
+  to { opacity: 1; translate: 0 0; }
+}
+.hero-in > * {
+  animation: rise 0.7s cubic-bezier(0.16, 0.9, 0.24, 1) both;
+}
+.hero-in > :nth-child(2) { animation-delay: 0.08s; }
+.hero-in > :nth-child(3) { animation-delay: 0.16s; }
+.hero-in > :nth-child(4) { animation-delay: 0.24s; }
+.hero-in > :nth-child(5) { animation-delay: 0.32s; }
+.hero-in > :nth-child(6) { animation-delay: 0.4s; }
+.hero-in-late > * {
+  animation: rise 0.7s cubic-bezier(0.16, 0.9, 0.24, 1) 0.3s both;
+}
+.hero-in-late > :nth-child(2) { animation-delay: 0.45s; }
+
+/* ---------- revelação ao rolar (components/ScrollFx.tsx) ----------
+   Usa `translate` (e não `transform`) para conviver com rotações e hovers dos elementos. */
+html.fx [data-reveal] {
+  opacity: 0;
+  translate: 0 26px;
+}
+html.fx [data-reveal][data-shown] {
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity 0.55s ease-out calc(var(--i, 0) * 80ms),
+    translate 0.75s cubic-bezier(0.16, 0.9, 0.24, 1) calc(var(--i, 0) * 80ms);
+}
+/* régua do título da seção: desenha da esquerda para a direita */
+.kick-rule {
+  transform-origin: left center;
+  transition: scale 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s;
+}
+html.fx [data-reveal]:not([data-shown]) .kick-rule {
+  scale: 0 1;
+}
+
+/* ---------- header: barra de progresso da leitura (só CSS, onde houver suporte) ---------- */
+.read-progress {
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  @keyframes read-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  .read-progress {
+    display: block;
+    transform-origin: left center;
+    animation: read-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -88,6 +145,33 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- 02. Projetos: print da página inteira rolando no hover ----------
+   .shot-box = caixa da prévia (container de tamanho); .shot-full = print alto, só existe no DOM
+   depois do primeiro hover/foco com mouse e ganha data-ready quando carrega (ver components/Projects.tsx).
+   --shot-dur vem dos dados do projeto.
+   Só anima transform. Para no fim exato: -100% da imagem + 100% da altura da caixa (100cqh). */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .shot-full {
+    transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .shot-box:hover .shot-full[data-ready],
+  .shot-card:has(.shot-bar:hover) .shot-full[data-ready],
+  .shot-card:focus-within .shot-full[data-ready] {
+    transform: translateY(calc(-100% + 100cqh));
+    transition: transform var(--shot-dur, 8s) cubic-bezier(0.45, 0.05, 0.35, 1) 0.15s;
+  }
+
+  /* o card "levanta" e a sombra dura cresce */
+  .shot-card {
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+  .shot-card:hover,
+  .shot-card:focus-within {
+    transform: translate(-3px, -3px);
+    box-shadow: 11px 11px 0 var(--shot-shadow);
   }
 }
 

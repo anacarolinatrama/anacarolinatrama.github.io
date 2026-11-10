@@ -13,7 +13,7 @@ type Props = {
 /** Abertura de seção: "NN. TÍTULO" + régua que preenche o resto da linha. */
 export function SectionKicker({ number, label, tone = "light", className, children }: Props) {
   return (
-    <div className={cn("flex items-baseline gap-[10px]", className)}>
+    <div data-reveal className={cn("flex items-baseline gap-[10px]", className)}>
       <span
         className={cn(
           "font-display text-[clamp(22px,3.4vw,40px)] uppercase",
@@ -25,7 +25,7 @@ export function SectionKicker({ number, label, tone = "light", className, childr
       <span
         aria-hidden="true"
         className={cn(
-          "h-[6px] flex-1",
+          "kick-rule h-[6px] flex-1",
           tone === "light" ? "border-y-2 border-navy bg-gold" : "bg-red",
         )}
       />
