@@ -111,24 +111,6 @@ export function Hero() {
             </div>
           </div>
 
-          {/* ---------- selo giratório: fica sobre a borda do xadrez, no vão entre as colunas (só em telas largas) ---------- */}
-          <div
-            aria-hidden="true"
-            className="hero-stamp pointer-events-none absolute left-[calc(56%-64px)] top-[36%] hidden h-[140px] w-[140px] -rotate-[8deg] place-items-center rounded-full border-[3px] border-navy bg-gold shadow-[5px_5px_0_#C6362A] min-[1400px]:grid"
-          >
-            <svg viewBox="0 0 140 140" className="absolute inset-0 h-full w-full animate-spin-slow">
-              <defs>
-                <path id="hero-stamp-path" d="M70 70 m-50 0 a50 50 0 1 1 100 0 a50 50 0 1 1 -100 0" />
-              </defs>
-              <text className="fill-navy font-display text-[12px] uppercase" textLength="306" lengthAdjust="spacing">
-                <textPath href="#hero-stamp-path">{h.stamp}</textPath>
-              </text>
-            </svg>
-            <span className="grid h-[58px] w-[58px] place-items-center rounded-full border-[3px] border-navy bg-navy font-display text-[26px] leading-none text-gold">
-              ★
-            </span>
-          </div>
-
           {/* ---------- coluna da câmera ---------- */}
           <div className="hero-in-late flex min-w-[min(240px,100%)] flex-[0_1_clamp(240px,32vw,400px)] flex-col gap-[clamp(16px,2.4vw,26px)]">
             <PolaroidCamera />
