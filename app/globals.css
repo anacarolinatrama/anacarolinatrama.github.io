@@ -95,9 +95,6 @@
   animation: rise 0.7s cubic-bezier(0.16, 0.9, 0.24, 1) 0.3s both;
 }
 .hero-in-late > :nth-child(2) { animation-delay: 0.45s; }
-.hero-stamp {
-  animation: rise 0.7s cubic-bezier(0.16, 0.9, 0.24, 1) 0.6s both;
-}
 
 /* ---------- revelação ao rolar (components/ScrollFx.tsx) ----------
    Usa `translate` (e não `transform`) para conviver com rotações e hovers dos elementos. */
