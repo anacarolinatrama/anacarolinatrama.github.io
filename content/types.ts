@@ -29,6 +29,8 @@ export type Copy = {
     /** Cargo em destaque logo abaixo do nome */
     role: string;
     badge: string;
+    /** Texto em círculo do selo giratório do hero (só desktop largo, decorativo) */
+    stamp: string;
     intro: string;
     marquee: string;
     cta: string;

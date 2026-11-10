@@ -26,6 +26,7 @@ export const en: Copy = {
     lastName: "Trama.",
     role: "UX/UI & Product Designer",
     badge: "Complex? Good.",
+    stamp: "UX/UI ✦ Product Design ✦ São Paulo ✦",
     intro:
       "For 8 years I've designed digital products in rule-heavy contexts like banking, media, retail and transit. My job is to make all of that feel simple for the people using it.",
     marquee:
