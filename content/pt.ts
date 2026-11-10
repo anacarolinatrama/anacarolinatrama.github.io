@@ -11,8 +11,8 @@ export const pt: Copy = {
   nav: [
     { label: "Início", href: "#inicio" },
     { label: "Quem sou", href: "#sobre" },
-    { label: "Trajetória", href: "#exp" },
     { label: "Projetos", href: "#projetos" },
+    { label: "Trajetória", href: "#exp" },
     { label: "IA", href: "#ia" },
     { label: "O que faço", href: "#comp" },
     { label: "Contato", href: "#contato" },
@@ -65,8 +65,8 @@ export const pt: Copy = {
     },
     links: [
       { n: "01", label: "Quem sou", href: "#sobre" },
-      { n: "02", label: "Trajetória", href: "#exp" },
-      { n: "03", label: "Projetos", href: "#projetos", arrow: true },
+      { n: "02", label: "Projetos", href: "#projetos", arrow: true },
+      { n: "03", label: "Trajetória", href: "#exp" },
       { n: "04", label: "Como uso IA", href: "#ia" },
       { n: "05", label: "O que faço", href: "#comp" },
       { n: "06", label: "Contato", href: "#contato", arrow: true },
@@ -171,6 +171,13 @@ export const pt: Copy = {
         desc: "Site de uma revenda de instrumentos de medição (Kestrel, Fluke, Dwyer). Catálogo navegável por categoria e por setor, destaques de produtos e pedido de orçamento rápido pelo WhatsApp.",
         role: "UX/UI design",
         tags: ["catálogo", "orçamento via WhatsApp", "B2B"],
+      },
+      {
+        id: "cabeloliso",
+        type: "Salão de beleza · Alisamento definitivo",
+        desc: "O site apresenta o método de alisamento definitivo do salão, com antes e depois de clientes, vídeos de resultados e agendamento pelo WhatsApp.",
+        role: "Design: Ana · Desenvolvimento: Cezar",
+        tags: ["antes e depois", "agendamento via WhatsApp", "vídeos"],
       },
       {
         id: "cezar",

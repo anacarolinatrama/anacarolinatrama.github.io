@@ -16,7 +16,7 @@ export function About() {
 
       <div className="grid grid-cols-1 items-start gap-[14px] lg:grid-cols-3">
         {/* retrato */}
-        <div className="relative aspect-[4/5] w-full border-[3px] border-navy bg-navy shadow-[10px_10px_0_#E5A81E] max-lg:max-w-[440px]">
+        <div data-reveal className="relative aspect-[4/5] w-full border-[3px] border-navy bg-navy shadow-[10px_10px_0_#E5A81E] max-lg:max-w-[440px]">
           <PhotoSlot
             src={site.photos.profile}
             alt={a.photoAlt}
@@ -30,16 +30,16 @@ export function About() {
 
         {/* texto */}
         <div className="flex min-w-0 flex-col gap-[14px] self-stretch lg:col-span-2">
-          <h2 className="m-0 max-w-[22ch] text-pretty font-display text-[clamp(26px,4.4vw,54px)] uppercase leading-[.98] text-navy">
+          <h2 data-reveal style={{ "--i": 1 } as React.CSSProperties} className="m-0 max-w-[22ch] text-pretty font-display text-[clamp(26px,4.4vw,54px)] uppercase leading-[.98] text-navy">
             {a.title}
           </h2>
 
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-3">
+          <div data-reveal style={{ "--i": 2 } as React.CSSProperties} className="grid grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-3">
             <p className="m-0 border-[3px] border-navy bg-white p-[18px] text-[15px] leading-[1.65]">{a.p1}</p>
             <p className="m-0 border-[3px] border-navy bg-gold p-[18px] text-[15px] leading-[1.65]">{a.p2}</p>
           </div>
 
-          <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
+          <ul data-reveal className="m-0 flex list-none flex-wrap gap-2 p-0">
             {a.traits.map((tr) => (
               <li
                 key={tr}
@@ -50,7 +50,7 @@ export function About() {
             ))}
           </ul>
 
-          <dl className="m-0 flex flex-wrap border-[3px] border-navy">
+          <dl data-reveal className="m-0 flex flex-wrap border-[3px] border-navy">
             {a.facts.map((f) => (
               <div
                 key={f.k}

@@ -24,7 +24,7 @@ export function Hero() {
 
         <div className="relative flex flex-wrap items-start justify-between gap-[clamp(28px,5vw,64px)]">
           {/* ---------- coluna de texto ---------- */}
-          <div className="flex min-w-[min(280px,100%)] max-w-[620px] flex-[1_1_380px] flex-col gap-[clamp(14px,2vw,22px)]">
+          <div className="hero-in flex min-w-[min(280px,100%)] max-w-[620px] flex-[1_1_380px] flex-col gap-[clamp(14px,2vw,22px)]">
             <div className="flex flex-wrap items-center gap-[10px]">
               <span className="inline-block bg-gold px-[10px] py-[5px] font-mono text-[10px] uppercase tracking-[.2em] text-navy">
                 {h.hello}
@@ -72,9 +72,10 @@ export function Hero() {
               <div className="flex flex-wrap items-center gap-3">
                 <a
                   href="#projetos"
-                  className="inline-flex items-center gap-2 rounded-[6px] border-2 border-navy bg-gold px-[14px] py-[9px] font-display text-[12px] uppercase tracking-[.1em] text-navy no-underline shadow-[4px_4px_0_#12224C] transition-colors hover:bg-red hover:text-cream max-md:min-h-[44px]"
+                  className="group inline-flex items-center gap-2 rounded-[6px] border-2 border-navy bg-gold px-[14px] py-[9px] font-display text-[12px] uppercase tracking-[.1em] text-navy no-underline shadow-[4px_4px_0_#12224C] transition-colors hover:bg-red hover:text-cream max-md:min-h-[44px]"
                 >
-                  {h.cta} <span className="font-mono text-[13px]">→</span>
+                  {h.cta}{" "}
+                  <span className="font-mono text-[13px] transition-transform duration-200 group-hover:translate-x-1">→</span>
                 </a>
                 <a
                   href={`/cv?lang=${lang}`}
@@ -111,7 +112,7 @@ export function Hero() {
           </div>
 
           {/* ---------- coluna da câmera ---------- */}
-          <div className="flex min-w-[min(240px,100%)] flex-[0_1_clamp(240px,32vw,400px)] flex-col gap-[clamp(16px,2.4vw,26px)]">
+          <div className="hero-in-late flex min-w-[min(240px,100%)] flex-[0_1_clamp(240px,32vw,400px)] flex-col gap-[clamp(16px,2.4vw,26px)]">
             <PolaroidCamera />
 
             <div className="flex flex-col gap-[2px]">

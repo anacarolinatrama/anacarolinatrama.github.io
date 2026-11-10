@@ -70,7 +70,7 @@ export type Copy = {
     /** Título do bloco de formação (os cursos ficam em content/cv.ts → education) */
     educationTitle: string;
   };
-  /** 03. Projetos no ar — metadados (url, cores) em content/projects.ts, ligados por `id` */
+  /** 02. Projetos no ar — metadados (url, cores) em content/projects.ts, ligados por `id` */
   projects: {
     kicker: string;
     title: string;

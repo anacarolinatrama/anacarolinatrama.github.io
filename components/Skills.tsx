@@ -19,7 +19,7 @@ function Dot({ className }: { className: string }) {
 /** Fita adesiva translúcida. */
 const tape = "absolute h-5 w-[78px] border border-navy/35 bg-cream/[.85]";
 
-/** 03. Competências — mural com o repertório, a Toolbox e os post-its. */
+/** 05. Competências — mural com o repertório, a Toolbox e os post-its. */
 export function Skills() {
   const { t } = useLanguage();
   const s = t.skills;

@@ -37,7 +37,7 @@ export function AiSection() {
 
       <div className="grid items-start gap-[clamp(24px,3.4vw,48px)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
         {/* ---------- princípio + onde uso / não uso ---------- */}
-        <div className="flex min-w-0 flex-col gap-5">
+        <div data-reveal className="flex min-w-0 flex-col gap-5">
           <h2 className="m-0 max-w-[16ch] text-balance font-display text-[clamp(28px,4.2vw,52px)] uppercase leading-[.95] text-navy">
             {a.title}
           </h2>
@@ -60,7 +60,7 @@ export function AiSection() {
         </div>
 
         {/* ---------- caso real ---------- */}
-        <figure className="relative m-0 min-w-0">
+        <figure data-reveal style={{ "--i": 2 } as React.CSSProperties} className="relative m-0 min-w-0">
           <span aria-hidden="true" className={`${tape} left-[40px] top-[-11px] z-[3] -rotate-3`} />
           <span aria-hidden="true" className={`${tape} right-[48px] top-[-11px] z-[3] rotate-[2.5deg]`} />
 

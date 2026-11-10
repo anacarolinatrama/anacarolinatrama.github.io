@@ -13,8 +13,8 @@ export const en: Copy = {
   nav: [
     { label: "Home", href: "#inicio" },
     { label: "About", href: "#sobre" },
-    { label: "Experience", href: "#exp" },
     { label: "Projects", href: "#projetos" },
+    { label: "Experience", href: "#exp" },
     { label: "AI", href: "#ia" },
     { label: "Skills", href: "#comp" },
     { label: "Contact", href: "#contato" },
@@ -67,8 +67,8 @@ export const en: Copy = {
     },
     links: [
       { n: "01", label: "About me", href: "#sobre" },
-      { n: "02", label: "Experience", href: "#exp" },
-      { n: "03", label: "Projects", href: "#projetos", arrow: true },
+      { n: "02", label: "Projects", href: "#projetos", arrow: true },
+      { n: "03", label: "Experience", href: "#exp" },
       { n: "04", label: "How I use AI", href: "#ia" },
       { n: "05", label: "Skills", href: "#comp" },
       { n: "06", label: "Contact", href: "#contato", arrow: true },
@@ -173,6 +173,13 @@ export const en: Copy = {
         desc: "Website for a reseller of measuring instruments (Kestrel, Fluke, Dwyer). A catalog you can browse by category and by industry, featured products and fast quote requests via WhatsApp.",
         role: "UX/UI design",
         tags: ["catalog", "WhatsApp quotes", "B2B"],
+      },
+      {
+        id: "cabeloliso",
+        type: "Hair salon · Permanent hair straightening",
+        desc: "The site presents the salon's permanent straightening method, with clients' before-and-after photos, result videos and booking via WhatsApp.",
+        role: "Design: Ana · Development: Cezar",
+        tags: ["before and after", "WhatsApp booking", "videos"],
       },
       {
         id: "cezar",

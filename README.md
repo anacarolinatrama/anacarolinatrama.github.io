@@ -49,6 +49,9 @@ Cada projeto tem o link, a cor da prévia e (opcional) um print em `content/proj
 o tipo, a descrição, o papel e as tags ficam em `projects.items` (`content/pt.ts` / `content/en.ts`), com o mesmo `id`.
 Os cards usam prints reais da primeira dobra de cada site (`public/projects/*.webp`, 800×500, 16:10), apontados em `image`.
 Para atualizar, substitua o arquivo mantendo o nome. Sem `image`, o card mostra uma prévia desenhada em CSS.
+No hover/foco (só com mouse e sem "reduzir movimento"), o print da página inteira (`public/projects/*-full.jpg`, 960 px de largura,
+capturado a 1440 px e cortado entre seções em ~6000 px) rola dentro da moldura; ele só é baixado no primeiro hover.
+Aponte em `fullImage` e registre a altura do arquivo em `fullHeight` (define a duração da rolagem).
 
 ### Currículo (/cv)
 
@@ -85,12 +88,13 @@ components/
   hero/Hero.tsx       hero: nome + cargo em destaque, câmera polaroid (hero/PolaroidCamera.tsx)
   Ribbon.tsx          faixa vermelha rolando
   About.tsx           01. Sobre mim (+ CityScape.tsx)
-  Experience.tsx      02. Trajetória (+ bloco Formação)
-  Projects.tsx        03. Projetos no ar (links: content/projects.ts; textos: `projects` em pt/en)
+  Projects.tsx        02. Projetos no ar (links: content/projects.ts; textos: `projects` em pt/en)
+  Experience.tsx      03. Trajetória (+ bloco Formação)
   AiSection.tsx       04. IA no processo — onde usa / não usa + caso real (content: `ai`)
   Skills.tsx          05. Competências — mural (skills/: StickyNotes, Toolbox, Mascot)
   Contact.tsx         06. Contato (+ ContactForm.tsx)
   Footer.tsx
+  ScrollFx.tsx        revelação das seções ao rolar (`data-reveal`; estilos em globals.css)
   LanguageProvider.tsx  idioma atual (lembrado no navegador)
   ui/                 SectionKicker, Marquee, PhotoSlot
 content/              textos PT/EN + links/fotos
