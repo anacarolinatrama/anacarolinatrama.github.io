@@ -151,7 +151,7 @@ export const pt: Copy = {
   },
 
   projects: {
-    kicker: "Projetos",
+    kicker: "Portfólio",
     title: "Projetos no ar",
     intro:
       "Sites publicados que você pode abrir agora — feitos com a Avellen, a consultoria de design e tecnologia da qual faço parte.",
@@ -186,11 +186,18 @@ export const pt: Copy = {
         role: "UX/UI design",
         tags: ["portfólio", "dark mode", "direção visual"],
       },
+      {
+        id: "viny",
+        type: "Portfólio pessoal",
+        desc: "Portfólio de UX/UI do Viny, designer em formação. A identidade visual conecta suas raízes mineiras ao olhar urbano, com pesquisa, interfaces e cultura de rua.",
+        role: "UX/UI design",
+        tags: ["identidade visual", "narrativa", "interações"],
+      },
     ],
   },
 
   ai: {
-    kicker: "IA no processo",
+    kicker: "Meu processo",
     title: "IA acelera. Quem decide sou eu.",
     intro:
       "Uso IA como ferramenta de trabalho, não como autora. Ela entra onde o trabalho é repetitivo ou exploratório; a leitura, a decisão e a responsabilidade continuam comigo.",

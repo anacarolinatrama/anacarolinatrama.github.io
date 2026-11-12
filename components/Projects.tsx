@@ -116,7 +116,7 @@ export function Projects() {
         <h2 className="m-0 font-display text-[clamp(26px,4.2vw,52px)] uppercase leading-[.95] text-navy">
           {pr.title}
         </h2>
-        <p className="m-0 max-w-[60ch] text-pretty text-[16px] leading-[1.6] text-navy">{pr.intro}</p>
+        <p className="m-0 max-w-none text-pretty text-[16px] leading-[1.6] text-navy">{pr.intro}</p>
       </div>
 
       <ul className="m-0 grid list-none gap-[clamp(18px,2.4vw,28px)] p-0 md:grid-cols-2 lg:grid-cols-3">

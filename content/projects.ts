@@ -32,4 +32,5 @@ export const projects: ProjectMeta[] = [
   { id: "castherm", name: "Castherm", url: "https://castherm.com.br/", bg: "#0A1428", accent: "red", image: "/projects/castherm.webp", fullImage: "/projects/castherm-full.jpg", fullHeight: 3569 },
   { id: "cabeloliso", name: "Cabeloliso.com", url: "https://cabeloliso.com/", bg: "#050505", accent: "gold", image: "/projects/cabeloliso.webp", fullImage: "/projects/cabeloliso-full.jpg", fullHeight: 4021 },
   { id: "cezar", name: "Cezar Bononi", url: "https://cezarbononi.github.io/", bg: "#060608", accent: "cream", image: "/projects/cezar.webp", fullImage: "/projects/cezar-full.jpg", fullHeight: 3883 },
+  { id: "viny", name: "Viny", url: "https://avellen.com.br/clientes/viny", bg: "#F3F0E7", accent: "gold", image: "/projects/viny.webp", fullImage: "/projects/viny-full.jpg", fullHeight: 3406 },
 ];

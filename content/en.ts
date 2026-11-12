@@ -153,7 +153,7 @@ export const en: Copy = {
   },
 
   projects: {
-    kicker: "Projects",
+    kicker: "Portfolio",
     title: "Live projects",
     intro:
       "Published sites you can open right now — made with Avellen, the design and technology consultancy I'm part of.",
@@ -188,11 +188,18 @@ export const en: Copy = {
         role: "UX/UI design",
         tags: ["portfolio", "dark mode", "visual direction"],
       },
+      {
+        id: "viny",
+        type: "Personal portfolio",
+        desc: "UX/UI portfolio for Viny, a designer in training. Its visual identity connects his roots in Minas Gerais with an urban outlook through research, interfaces and street culture.",
+        role: "UX/UI design",
+        tags: ["visual identity", "storytelling", "interactions"],
+      },
     ],
   },
 
   ai: {
-    kicker: "AI in the process",
+    kicker: "My process",
     title: "AI speeds things up. I make the call.",
     intro:
       "I use AI as a work tool, not as an author. It comes in where the work is repetitive or exploratory; reading, deciding and owning the result stay with me.",
