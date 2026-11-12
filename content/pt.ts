@@ -157,6 +157,10 @@ export const pt: Copy = {
       "Sites publicados que você pode abrir agora — feitos com a Avellen, a consultoria de design e tecnologia da qual faço parte.",
     visit: "Visitar site",
     roleLabel: "Meu papel",
+    carousel: "carrossel de projetos",
+    previous: "Projetos anteriores",
+    next: "Próximos projetos",
+    pageStatus: "Página {current} de {total}",
     items: [
       {
         id: "avellen",

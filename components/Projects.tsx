@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FULL_SHOT_WIDTH, projects, type ProjectMeta } from "@/content/projects";
 import { cn } from "@/lib/cn";
 import { useLanguage } from "./LanguageProvider";
@@ -12,6 +12,7 @@ const ACCENT = {
   red: { color: "#C6362A", shadow: "shadow-[8px_8px_0_#C6362A]", fill: "bg-red" },
   cream: { color: "#12224C", shadow: "shadow-[8px_8px_0_#12224C]", fill: "bg-cream" },
 } as const;
+const PROJECTS_PER_PAGE = 2;
 
 /** Domínio limpo para a barra de endereço: https://avellen.com.br/pt → avellen.com.br/pt */
 function displayUrl(url: string) {
@@ -48,7 +49,7 @@ function Preview({ p, showFull }: { p: ProjectMeta; showFull?: boolean }) {
           src={p.image}
           alt=""
           fill
-          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+          sizes="(min-width: 640px) 50vw, 100vw"
           className="object-cover object-top"
         />
         {showFull && p.fullImage && p.fullHeight ? (
@@ -102,107 +103,247 @@ function Preview({ p, showFull }: { p: ProjectMeta; showFull?: boolean }) {
 export function Projects() {
   const { t } = useLanguage();
   const pr = t.projects;
+  const pageCount = Math.ceil(projects.length / PROJECTS_PER_PAGE);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const pointerStart = useRef<{ x: number; y: number; pointerId: number } | null>(null);
+  const suppressClickUntil = useRef(0);
   /** Cards que já tiveram hover/foco (com mouse): só eles baixam o print da página inteira. */
   const [armed, setArmed] = useState<ReadonlySet<string>>(() => new Set());
   const arm = (id: string) => {
     if (armed.has(id) || !canScrollShot()) return;
     setArmed((prev) => new Set(prev).add(id));
   };
+  const goToPage = (target: number) => {
+    const next = Math.max(0, Math.min(target, pageCount - 1));
+    if (next === pageIndex) return;
+    setPageIndex(next);
+  };
+  const pageStatus = pr.pageStatus
+    .replace("{current}", String(pageIndex + 1))
+    .replace("{total}", String(pageCount));
+  const visibleProjects = projects.slice(
+    pageIndex * PROJECTS_PER_PAGE,
+    (pageIndex + 1) * PROJECTS_PER_PAGE,
+  );
 
   return (
-    <section id="projetos" className="relative px-[clamp(12px,3vw,36px)] py-[clamp(26px,5vw,64px)]">
+    <section
+      id="projetos"
+      aria-label={pr.title}
+      aria-roledescription={pr.carousel}
+      className="relative px-[clamp(12px,3vw,36px)] py-[clamp(26px,5vw,64px)]"
+    >
       <SectionKicker number="02" label={pr.kicker} className="mb-[18px]" />
       <div data-reveal className="mb-[clamp(22px,3vw,36px)] flex flex-col gap-3">
-        <h2 className="m-0 font-display text-[clamp(26px,4.2vw,52px)] uppercase leading-[.95] text-navy">
+        <h2 id="projects-title" className="m-0 font-display text-[clamp(26px,4.2vw,52px)] uppercase leading-[.95] text-navy">
           {pr.title}
         </h2>
         <p className="m-0 max-w-none text-pretty text-[16px] leading-[1.6] text-navy">{pr.intro}</p>
       </div>
 
-      <ul className="m-0 grid list-none gap-[clamp(18px,2.4vw,28px)] p-0 md:grid-cols-2 lg:grid-cols-3">
-        {projects.map((p, i) => {
-          const text = pr.items.find((it) => it.id === p.id);
-          if (!text) return null;
-          const a = ACCENT[p.accent];
-          return (
-            <li
-              key={p.id}
-              onPointerEnter={(e) => e.pointerType === "mouse" && arm(p.id)}
-              onFocus={() => arm(p.id)}
-              data-reveal
-              style={
-                {
-                  "--i": i % 3,
-                  "--shot-shadow": a.color,
-                  ...(p.fullHeight ? { "--shot-dur": scrollDuration(p.fullHeight) } : null),
-                } as React.CSSProperties
-              }
-              className={cn("shot-card flex min-w-0 flex-col border-[3px] border-navy bg-paper", a.shadow)}
+      <div role="group" aria-labelledby="projects-title">
+        <div
+          draggable={false}
+          onDragStart={(event) => event.preventDefault()}
+          className={cn(
+            "projects-viewport touch-pan-y cursor-grab",
+            isDragging && "projects-is-dragging cursor-grabbing select-none",
+          )}
+          onPointerDown={(event) => {
+            if (event.pointerType !== "mouse" || event.button !== 0) return;
+            pointerStart.current = {
+              x: event.clientX,
+              y: event.clientY,
+              pointerId: event.pointerId,
+            };
+          }}
+          onPointerMove={(event) => {
+            const start = pointerStart.current;
+            if (!start || start.pointerId !== event.pointerId) return;
+            const dx = event.clientX - start.x;
+            const dy = event.clientY - start.y;
+            if (Math.abs(dx) < 8 || Math.abs(dx) <= Math.abs(dy)) return;
+            if (!isDragging) {
+              setIsDragging(true);
+              window.getSelection()?.removeAllRanges();
+            }
+            setDragOffset(dx);
+            if (!event.currentTarget.hasPointerCapture(event.pointerId)) {
+              event.currentTarget.setPointerCapture(event.pointerId);
+            }
+            event.preventDefault();
+          }}
+          onPointerUp={(event) => {
+            const start = pointerStart.current;
+            pointerStart.current = null;
+            if (!start || start.pointerId !== event.pointerId) return;
+            const dx = event.clientX - start.x;
+            const dy = event.clientY - start.y;
+            setIsDragging(false);
+            setDragOffset(0);
+            if (Math.abs(dx) < 48 || Math.abs(dx) <= Math.abs(dy)) return;
+            suppressClickUntil.current = Date.now() + 250;
+            goToPage(pageIndex + (dx < 0 ? 1 : -1));
+          }}
+          onPointerCancel={() => {
+            pointerStart.current = null;
+            setIsDragging(false);
+            setDragOffset(0);
+          }}
+          onTouchStart={(event) => {
+            if (event.touches.length !== 1) return;
+            const touch = event.touches[0];
+            touchStart.current = { x: touch.clientX, y: touch.clientY };
+          }}
+          onTouchEnd={(event) => {
+            const start = touchStart.current;
+            touchStart.current = null;
+            if (!start) return;
+            const touch = event.changedTouches[0];
+            const dx = touch.clientX - start.x;
+            const dy = touch.clientY - start.y;
+            if (Math.abs(dx) < 48 || Math.abs(dx) <= Math.abs(dy)) return;
+            suppressClickUntil.current = Date.now() + 250;
+            goToPage(pageIndex + (dx < 0 ? 1 : -1));
+          }}
+          onClickCapture={(event) => {
+            if (Date.now() > suppressClickUntil.current) return;
+            event.preventDefault();
+            event.stopPropagation();
+            suppressClickUntil.current = 0;
+          }}
+        >
+          <div key={pageIndex} className="projects-sweep">
+            <ul
+              id="projects-cards"
+              style={{ "--drag-offset": `${dragOffset}px` } as React.CSSProperties}
+              className={cn(
+                "projects-drag-track m-0 grid list-none gap-[clamp(18px,2.4vw,28px)] p-0 sm:grid-cols-2",
+                isDragging && "projects-is-dragging",
+              )}
             >
-              {/* barra do navegador */}
-              <div className="shot-bar flex items-center gap-2 border-b-[3px] border-navy bg-steel px-[7px] py-[5px]">
-                <span aria-hidden="true" className="flex flex-none gap-1">
-                  <span className="h-[10px] w-[10px] rounded-full border border-navy bg-red" />
-                  <span className="h-[10px] w-[10px] rounded-full border border-navy bg-gold" />
-                  <span className="h-[10px] w-[10px] rounded-full border border-navy bg-cream" />
-                </span>
-                <span className="min-w-0 flex-1 truncate border border-navy bg-paper px-2 py-[2px] font-mono text-[10px] text-navy">
-                  {displayUrl(p.url)}
-                </span>
-              </div>
-
-              {/* prévia */}
-              <a
-                href={p.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                tabIndex={-1}
-                aria-hidden="true"
-                className="shot-box relative block aspect-[16/10] overflow-hidden border-b-[3px] border-navy [container-type:size]"
-              >
-                <Preview p={p} showFull={armed.has(p.id)} />
-                <span className="absolute bottom-3 left-3 border-2 border-navy bg-gold px-[7px] py-[3px] font-display text-[13px] leading-none text-navy">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-              </a>
-
-              {/* texto */}
-              <div className="flex flex-1 flex-col gap-3 p-5">
-                <span className="font-mono text-[10px] uppercase tracking-[.16em] text-red">{text.type}</span>
-                <h3 className="m-0 font-display text-[20px] font-normal uppercase leading-[1.05] text-navy">{p.name}</h3>
-                <p className="m-0 text-pretty text-[14px] leading-[1.6] text-navy">{text.desc}</p>
-                <ul className="m-0 flex list-none flex-wrap gap-[6px] p-0">
-                  {text.tags.map((tag) => (
-                    <li
-                      key={tag}
-                      className="border-2 border-navy px-[8px] py-[4px] font-mono text-[10px] uppercase text-navy"
-                    >
-                      {tag}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-dashed border-navy/30 pt-4">
-                  <span className="font-mono text-[10px] uppercase tracking-[.12em] text-navy/70">
-                    {pr.roleLabel}: <span className="text-navy">{text.role}</span>
-                  </span>
-                  <a
-                    href={p.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-2 border-2 border-navy bg-navy px-4 py-[10px] font-display text-[11px] uppercase tracking-[.04em] text-cream no-underline shadow-[4px_4px_0_#C6362A] transition-[transform,box-shadow] duration-[180ms] ease-in-out hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_#C6362A] max-md:min-h-[44px]"
+              {visibleProjects.map((p, pageItemIndex) => {
+                const i = pageIndex * PROJECTS_PER_PAGE + pageItemIndex;
+                const text = pr.items.find((it) => it.id === p.id);
+                if (!text) return null;
+                const a = ACCENT[p.accent];
+                return (
+                  <li
+                    key={p.id}
+                    onPointerEnter={(e) => e.pointerType === "mouse" && arm(p.id)}
+                    onFocus={() => arm(p.id)}
+                    style={
+                      {
+                        "--i": pageItemIndex,
+                        "--shot-shadow": a.color,
+                        ...(p.fullHeight ? { "--shot-dur": scrollDuration(p.fullHeight) } : null),
+                      } as React.CSSProperties
+                    }
+                    className={cn("shot-card flex min-w-0 flex-col border-[3px] border-navy bg-paper", a.shadow)}
                   >
-                    {pr.visit}{" "}
-                    <span aria-hidden="true" className="transition-transform duration-200 group-hover:-translate-y-[2px] group-hover:translate-x-[2px]">
-                      ↗
-                    </span>
-                    <span className="sr-only">— {p.name}</span>
-                  </a>
-                </div>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+                    {/* barra do navegador */}
+                    <div className="shot-bar flex items-center gap-2 border-b-[3px] border-navy bg-steel px-[7px] py-[5px]">
+                      <span aria-hidden="true" className="flex flex-none gap-1">
+                        <span className="h-[10px] w-[10px] rounded-full border border-navy bg-red" />
+                        <span className="h-[10px] w-[10px] rounded-full border border-navy bg-gold" />
+                        <span className="h-[10px] w-[10px] rounded-full border border-navy bg-cream" />
+                      </span>
+                      <span className="min-w-0 flex-1 truncate border border-navy bg-paper px-2 py-[2px] font-mono text-[10px] text-navy">
+                        {displayUrl(p.url)}
+                      </span>
+                    </div>
+
+                    {/* prévia */}
+                    <a
+                      href={p.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      tabIndex={-1}
+                      aria-hidden="true"
+                      className="shot-box relative block aspect-[16/10] overflow-hidden border-b-[3px] border-navy [container-type:size]"
+                    >
+                      <Preview p={p} showFull={armed.has(p.id)} />
+                      <span className="absolute bottom-3 left-3 border-2 border-navy bg-gold px-[7px] py-[3px] font-display text-[13px] leading-none text-navy">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                    </a>
+
+                    {/* texto */}
+                    <div className="flex flex-1 flex-col gap-3 p-5">
+                      <span className="font-mono text-[10px] uppercase tracking-[.16em] text-red">{text.type}</span>
+                      <h3 className="m-0 font-display text-[20px] font-normal uppercase leading-[1.05] text-navy">{p.name}</h3>
+                      <p className="m-0 text-pretty text-[14px] leading-[1.6] text-navy">{text.desc}</p>
+                      <ul className="m-0 flex list-none flex-wrap gap-[6px] p-0">
+                        {text.tags.map((tag) => (
+                          <li
+                            key={tag}
+                            className="border-2 border-navy px-[8px] py-[4px] font-mono text-[10px] uppercase text-navy"
+                          >
+                            {tag}
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-dashed border-navy/30 pt-4">
+                        <span className="font-mono text-[10px] uppercase tracking-[.12em] text-navy/70">
+                          {pr.roleLabel}: <span className="text-navy">{text.role}</span>
+                        </span>
+                        <a
+                          href={p.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group inline-flex items-center gap-2 border-2 border-navy bg-navy px-4 py-[10px] font-display text-[11px] uppercase tracking-[.04em] text-cream no-underline shadow-[4px_4px_0_#C6362A] transition-[transform,box-shadow] duration-[180ms] ease-in-out hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_#C6362A] max-md:min-h-[44px]"
+                        >
+                          {pr.visit}{" "}
+                          <span aria-hidden="true" className="transition-transform duration-200 group-hover:-translate-y-[2px] group-hover:translate-x-[2px]">
+                            ↗
+                          </span>
+                          <span className="sr-only">— {p.name}</span>
+                        </a>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-[clamp(18px,2.4vw,28px)] flex items-center justify-between gap-4">
+          <span
+            aria-label={pageStatus}
+            aria-live="polite"
+            aria-atomic="true"
+            className="font-mono text-[11px] uppercase tracking-[.14em] text-navy/70"
+          >
+            {String(pageIndex + 1).padStart(2, "0")} / {String(pageCount).padStart(2, "0")}
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-label={pr.previous}
+              aria-controls="projects-cards"
+              disabled={pageIndex === 0}
+              onClick={() => goToPage(pageIndex - 1)}
+              className="grid h-11 w-11 place-items-center border-2 border-navy bg-cream font-display text-[20px] leading-none text-navy transition-colors hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <span aria-hidden="true">←</span>
+            </button>
+            <button
+              type="button"
+              aria-label={pr.next}
+              aria-controls="projects-cards"
+              disabled={pageIndex === pageCount - 1}
+              onClick={() => goToPage(pageIndex + 1)}
+              className="grid h-11 w-11 place-items-center border-2 border-navy bg-cream font-display text-[20px] leading-none text-navy transition-colors hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

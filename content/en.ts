@@ -159,6 +159,10 @@ export const en: Copy = {
       "Published sites you can open right now — made with Avellen, the design and technology consultancy I'm part of.",
     visit: "Visit site",
     roleLabel: "My role",
+    carousel: "project carousel",
+    previous: "Previous projects",
+    next: "Next projects",
+    pageStatus: "Page {current} of {total}",
     items: [
       {
         id: "avellen",
