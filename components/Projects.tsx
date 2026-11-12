@@ -145,6 +145,39 @@ export function Projects() {
       </div>
 
       <div role="group" aria-labelledby="projects-title">
+        <div className="mb-[clamp(18px,2.4vw,28px)] flex items-center justify-between gap-4">
+          <span
+            aria-label={pageStatus}
+            aria-live="polite"
+            aria-atomic="true"
+            className="font-mono text-[11px] uppercase tracking-[.14em] text-navy/70"
+          >
+            {String(pageIndex + 1).padStart(2, "0")} / {String(pageCount).padStart(2, "0")}
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-label={pr.previous}
+              aria-controls="projects-cards"
+              disabled={pageIndex === 0}
+              onClick={() => goToPage(pageIndex - 1)}
+              className="grid h-11 w-11 place-items-center border-2 border-navy bg-cream font-display text-[20px] leading-none text-navy transition-colors hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <span aria-hidden="true">←</span>
+            </button>
+            <button
+              type="button"
+              aria-label={pr.next}
+              aria-controls="projects-cards"
+              disabled={pageIndex === pageCount - 1}
+              onClick={() => goToPage(pageIndex + 1)}
+              className="grid h-11 w-11 place-items-center border-2 border-navy bg-cream font-display text-[20px] leading-none text-navy transition-colors hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+
         <div
           draggable={false}
           onDragStart={(event) => event.preventDefault()}
@@ -308,39 +341,6 @@ export function Projects() {
                 );
               })}
             </ul>
-          </div>
-        </div>
-
-        <div className="mt-[clamp(18px,2.4vw,28px)] flex items-center justify-between gap-4">
-          <span
-            aria-label={pageStatus}
-            aria-live="polite"
-            aria-atomic="true"
-            className="font-mono text-[11px] uppercase tracking-[.14em] text-navy/70"
-          >
-            {String(pageIndex + 1).padStart(2, "0")} / {String(pageCount).padStart(2, "0")}
-          </span>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              aria-label={pr.previous}
-              aria-controls="projects-cards"
-              disabled={pageIndex === 0}
-              onClick={() => goToPage(pageIndex - 1)}
-              className="grid h-11 w-11 place-items-center border-2 border-navy bg-cream font-display text-[20px] leading-none text-navy transition-colors hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              <span aria-hidden="true">←</span>
-            </button>
-            <button
-              type="button"
-              aria-label={pr.next}
-              aria-controls="projects-cards"
-              disabled={pageIndex === pageCount - 1}
-              onClick={() => goToPage(pageIndex + 1)}
-              className="grid h-11 w-11 place-items-center border-2 border-navy bg-cream font-display text-[20px] leading-none text-navy transition-colors hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              <span aria-hidden="true">→</span>
-            </button>
           </div>
         </div>
       </div>
