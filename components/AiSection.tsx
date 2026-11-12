@@ -15,12 +15,15 @@ const STEP_THEMES = [
 const tape = "absolute h-5 w-[78px] border border-navy/35 bg-cream/[.85]";
 
 /**
- * 04. IA no processo — o único lugar do site que explica como a Ana usa IA:
+ * 04. Meu processo — o único lugar do site que explica como a Ana usa IA:
  * princípio, onde usa / não usa e um caso real em formato de janela retrô.
  */
 export function AiSection() {
   const { t } = useLanguage();
   const a = t.ai;
+  const sentenceBreak = a.title.indexOf(". ");
+  const titleLead = sentenceBreak >= 0 ? a.title.slice(0, sentenceBreak + 1) : a.title;
+  const titleRest = sentenceBreak >= 0 ? a.title.slice(sentenceBreak + 2) : "";
 
   return (
     <section
@@ -38,8 +41,9 @@ export function AiSection() {
       <div className="grid items-start gap-[clamp(24px,3.4vw,48px)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
         {/* ---------- princípio + onde uso / não uso ---------- */}
         <div data-reveal className="flex min-w-0 flex-col gap-5">
-          <h2 className="m-0 max-w-[16ch] text-balance font-display text-[clamp(28px,4.2vw,52px)] uppercase leading-[.95] text-navy">
-            {a.title}
+          <h2 className="m-0 max-w-none font-display text-[clamp(22px,2.8vw,40px)] uppercase leading-[.95] text-navy">
+            <span className="block whitespace-nowrap">{titleLead}</span>
+            {titleRest ? <span className="block whitespace-nowrap">{titleRest}</span> : null}
           </h2>
           <p className="m-0 max-w-[52ch] text-pretty text-[16px] leading-[1.65] text-navy">{a.intro}</p>
 

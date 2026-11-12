@@ -79,7 +79,7 @@ export type Copy = {
     roleLabel: string;
     items: { id: string; type: string; desc: string; role: string; tags: string[] }[];
   };
-  /** 04. IA no processo — único lugar do site que explica o uso de IA */
+  /** 04. Meu processo — único lugar do site que explica o uso de IA */
   ai: {
     kicker: string;
     title: string;

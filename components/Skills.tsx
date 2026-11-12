@@ -69,7 +69,7 @@ export function Skills() {
       </SectionKicker>
 
       {/* aviso: os post-its são arrastáveis */}
-      <p className="relative m-0 mb-[18px] flex max-w-[640px] items-start gap-[10px] font-mono text-[12px] leading-[1.5] text-navy">
+      <p className="relative m-0 mb-[18px] flex max-w-none items-start gap-[10px] font-mono text-[12px] leading-[1.5] text-navy">
         <span
           aria-hidden="true"
           className="grid h-7 w-7 flex-none -rotate-6 place-items-center border-2 border-navy bg-gold text-[15px] leading-none text-navy shadow-[2px_2px_0_#12224C]"
