@@ -77,6 +77,10 @@ export type Copy = {
     intro: string;
     visit: string;
     roleLabel: string;
+    carousel: string;
+    previous: string;
+    next: string;
+    pageStatus: string;
     items: { id: string; type: string; desc: string; role: string; tags: string[] }[];
   };
   /** 04. Meu processo — único lugar do site que explica o uso de IA */
